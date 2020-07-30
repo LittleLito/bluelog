@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <title>T</title>
+</head>
+{% macro static_file(type, filename_or_url, local=True) %}
+
+    {% if local %}
+        {% set filename_or_url = url_for('static', filename=filename_or_url) %}
+    {% endif %}
+
+    {% if type == 'css' %}
+        <link rel="stylesheet" href="{{ filename_or_url }}" type="text/css">
+    {% elif type == 'js' %}
+        <script type="text/javascript" src=""></script>
+    {% elif type == 'icon' %}
+        <link rel="icon" href="{{ filename_or_url }}">
+    {% endif %}
+
+{% endmacro %}
+
+
+{% macro form_field(field, rows=None, cols=None) %}
+    <div class="form-group">
+    {{ field.label }}<br>
+    {{ field(**kwargs) }}
+    </div>
+
+    {% if field.errors %}
+        {% for error in field.errors %}
+            <small class="errors">{{ error }}</small>
+        {% endfor %}
+    {% endif %}
+
+{% endmacro %}
+
+
+{% macro get_flash() %}
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-success" style="margin: 50px">
+            <button class="close" type="button" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endmacro %}
+</html>
