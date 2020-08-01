@@ -1,3 +1,4 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,7 @@
     {% endblock head %}
 </head>
 <body>
+
 {% block nav %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
@@ -27,9 +29,7 @@
 
         <div class="collapsed navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
+                {{ render_nav_link('blog.index', 'Home') }}
             </ul>
         </div>
 
@@ -38,12 +38,21 @@
 {% endblock nav %}
 
 <main class="container">
+
+{% for message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-{{ message[0] }}" role="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message[1] }}
+    </div>
+
     {% block content %}{% endblock content %}
+
     {% block footer %}
     <footer>
         Copyright &copy; 2020 Lito
     </footer>
     {% endblock footer %}
+
 </main>
 
 {% block script %}
